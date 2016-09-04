@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+      $(function() {
+
+        $.ajax({
+          url: 'http://www.divvybikes.com/stations/json/',
+          success: function (data) {
+            var stationList = data.stationBeanList;
+            $.each(stationList, function(i, station) {
+              var availableBikes = station.availableBikes;
+              var availableDocks = station.availableDocks;
+              var stationName = station.stationName;
+              var latitude = station.latitude;
+              var longitude = station.longitude;
+
+              if (availableBikes === 0) {
+                console.log('Zero bikes at ' + stationName + '!');
+              } else if (availableDocks === 0) {
+                console.log('Zero docks at ' + stationName + '!');
+              };
+            });
+          }
+        });
+
+      });
+    </script>
+  </head>
+  <body>
+    <div id="main"></div>
+  </body>
+</html>
