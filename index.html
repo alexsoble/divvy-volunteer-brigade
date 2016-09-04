@@ -5,61 +5,12 @@
     <link rel='stylesheet' href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700' type='text/css' />
     <link rel='stylesheet' href="vendor/css/map-icons.css" type='text/css' />
+    <link rel='stylesheet' href="style.css" type='text/css' />
+
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
     <script src="vendor/tile.stamen.js"></script>
-    <style>
-      #map {
-        height: 100%;
-      }
-      .icon-wrapper {
-        background-color: white;
-        padding: 10px;
-        border-radius: 32px;
-        border: 1px solid gray;
-      }
-      .map-icon {
-        font-size: 24px;
-        position: relative;
-        bottom: 6px;
-        right: 6px;
-      }
-    </style>
-    <script>
-      $(function() {
-        var map = L.map('map').setView([41.89, -87.61], 12);
-
-        var layer = new L.StamenTileLayer("toner-lite");
-        map.addLayer(layer);
-
-        var bikeIcon = L.divIcon({
-          className: 'icon-wrapper',
-          html: '<span class="map-icon map-icon-bicycling"><span>'
-        });
-
-        $.ajax({
-          url: 'http://www.divvybikes.com/stations/json/',
-          success: function (data) {
-            var stationList = data.stationBeanList;
-            $.each(stationList, function(i, station) {
-              var availableBikes = station.availableBikes;
-              var availableDocks = station.availableDocks;
-              var stationName = station.stationName;
-              var latitude = station.latitude;
-              var longitude = station.longitude;
-
-              if (availableBikes === 0) {
-                L.marker([latitude, longitude], { icon: bikeIcon }).addTo(map)
-                  .bindPopup('Zero bikes at ' + stationName + '!');
-              } else if (availableDocks === 0) {
-                L.marker([latitude, longitude], { icon: bikeIcon }).addTo(map)
-                  .bindPopup('Zero bikes at ' + stationName + '!');
-              };
-            });
-          }
-        });
-      });
-    </script>
+    <script src="map.js"></script>
   </head>
   <body>
     <div id="map"></div>
