@@ -14,6 +14,10 @@
     <script src="vendor/tile.stamen.js"></script>
     <script>
       $(function() {
+        var map = L.map('map').setView([41.89, -87.61], 12);
+
+        var layer = new L.StamenTileLayer("toner-lite");
+        map.addLayer(layer);
 
         $.ajax({
           url: 'http://www.divvybikes.com/stations/json/',
@@ -27,18 +31,15 @@
               var longitude = station.longitude;
 
               if (availableBikes === 0) {
-                console.log('Zero bikes at ' + stationName + '!');
+                L.marker([latitude, longitude]).addTo(map)
+                  .bindPopup('Zero bikes at ' + stationName + '!');
               } else if (availableDocks === 0) {
-                console.log('Zero docks at ' + stationName + '!');
+                L.marker([latitude, longitude]).addTo(map)
+                  .bindPopup('Zero bikes at ' + stationName + '!');
               };
             });
           }
         });
-
-        var map = L.map('map').setView([41.89, -87.61], 12);
-
-        var layer = new L.StamenTileLayer("toner-lite");
-        map.addLayer(layer);
       });
     </script>
   </head>
