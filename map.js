@@ -12,20 +12,26 @@ $(function() {
   function handleStationData (data) {
     var stationList = data.stationBeanList;
     $.each(stationList, function(i, station) {
-      var availableBikes = station.availableBikes;
-      var availableDocks = station.availableDocks;
-      var stationName = station.stationName;
-      var latitude = station.latitude;
-      var longitude = station.longitude;
-
-      if (availableBikes === 0) {
-        L.marker([latitude, longitude], { icon: bikeIcon }).addTo(map)
-          .bindPopup('Zero bikes at ' + stationName + '!');
-      } else if (availableDocks === 0) {
-        L.marker([latitude, longitude], { icon: bikeIcon }).addTo(map)
-          .bindPopup('Zero bikes at ' + stationName + '!');
-      };
+      makeMarkerForStation(station);
     });
+  };
+
+  function makeMarkerForStation (station) {
+    var availableBikes = station.availableBikes;
+    var availableDocks = station.availableDocks;
+    var stationName = station.stationName;
+    var latitude = station.latitude;
+    var longitude = station.longitude;
+
+    if (availableBikes !== 0 && availableDocks !== 0) return null;
+
+    var marker =  L.marker([latitude, longitude], { icon: bikeIcon }).addTo(map);
+
+    if (availableBikes === 0) {
+      marker.bindPopup('Zero bikes at ' + stationName + '!');
+    } else if (availableDocks === 0) {
+      marker.bindPopup('Zero docks at ' + stationName + '!');
+    };
   }
 
   $.ajax({
