@@ -20,7 +20,7 @@
     var longitude = station.longitude;
     var bikeIcon = L.divIcon({
       className: 'icon-wrapper',
-      html: '<span class="map-icon map-icon-bicycling"><span>'
+      html: '<span class="map-icon map-icon-bicycle-store"><span>'
     });
 
     if (availableBikes !== 0 && availableDocks !== 0) return null;
