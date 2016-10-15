@@ -38,6 +38,7 @@
     };
   };
 
+
   VolunteerMap.prototype.drawLinesForStation = function drawLines (station) {
     var self = this;
     var nearest = nearestStationsLookup[station.id];
@@ -50,14 +51,36 @@
 
       var pointList = [stationCoordinates, nearbyCoordinates];
 
-      var line = new L.polyline(pointList, {
+      var lineConfig = {
         color: 'red',
         weight: 6,
         opacity: 0.75,
         smoothFactor: 1,
-      });
+      };
+
+      var dy = nearbyStation.latitude - station.latitude;
+      var dx = nearbyStation.longitude - station.longitude;
+      var angle = Math.atan2(dy, dx);
+
+      Math.cos(angle-Math.PI/6)
+
+      var leftArrowHeadLatLong = [
+        [nearbyStation.latitude, nearbyStation.longitude],
+        [nearbyStation.latitude - (0.0008), nearbyStation.longitude - (0.0008)]
+      ];
+
+      var rightArrowHeadLatLong = [
+        [nearbyStation.latitude, nearbyStation.longitude],
+        [nearbyStation.latitude - (0.0008), nearbyStation.longitude + (0.0008)]
+      ];
+
+      var line = new L.polyline(pointList, lineConfig);
+      var leftArrowHead = new L.polyline(leftArrowHeadLatLong, lineConfig);
+      var rightArrowHead = new L.polyline(rightArrowHeadLatLong, lineConfig);
 
       line.addTo(this.map);
+      leftArrowHead.addTo(this.map);
+      rightArrowHead.addTo(this.map);
     }
   };
 
