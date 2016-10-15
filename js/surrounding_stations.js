@@ -8,14 +8,12 @@
   SurroundingStations.prototype.draw = function drawLines (station, map) {
     var nearest = nearestStationsLookup[this.station.id];
 
-    var stationCoordinates = new L.LatLng(this.station.latitude, this.station.longitude);
-
     for (i = 0; i < nearest.length; i++) {
       var nearbyStation = nearest[i];
       (new Marker(nearbyStation, this.map)).draw();
       var nearbyCoordinates = new L.LatLng(nearbyStation.latitude, nearbyStation.longitude);
 
-      var pointList = [stationCoordinates, nearbyCoordinates];
+      var pointList = [this.stationLatLng(), nearbyCoordinates];
 
       var dy = nearbyStation.latitude - this.station.latitude;
       var dx = nearbyStation.longitude - this.station.longitude;
@@ -94,6 +92,10 @@
     };
 
     return lineConfig;
+  };
+
+  SurroundingStations.prototype.stationLatLng = function makeLatLong () {
+    return (new L.LatLng(this.station.latitude, this.station.longitude));
   };
 
   root.SurroundingStations = SurroundingStations;
