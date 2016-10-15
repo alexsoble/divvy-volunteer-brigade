@@ -3,8 +3,19 @@
   var Marker = window.Marker;
 
   var VolunteerMap = function initializeVolunteerMap (data, map) {
-    this.stationList = data.stationBeanList;
     this.map = map;
+    this.stationList = data.stationBeanList;
+    this.stationLookup = this.stationLookup || this.buildStationLookup();
+  };
+
+  VolunteerMap.prototype.buildStationLookup = function () {
+    var lookup = {};
+
+    this.stationList.map(function(station) {
+      lookup[station['id']] = station;
+    });
+
+    return lookup;
   };
 
   VolunteerMap.prototype.draw = function draw () {
