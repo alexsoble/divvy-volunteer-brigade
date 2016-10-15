@@ -23,7 +23,9 @@
     if (this.station.availableBikes === 0) {
       return 'Zero bikes at ' + this.station.stationName + '!';
     } else if (this.station.availableDocks === 0) {
-      return 'Zero docs  at ' + this.station.stationName + '!';
+      return 'Zero docks at ' + this.station.stationName + '!';
+    } else {
+      return String(this.station.availableBikes) + ' bikes at ' + this.station.stationName + '.';
     };
   };
 
