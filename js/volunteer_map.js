@@ -31,15 +31,15 @@
 
     if (availableBikes === 0) {
       marker.bindPopup('Zero bikes at ' + stationName + '!');
-      self.drawLinesForStation(station);
+      self.drawLinesForStation(station, 'zero bikes');
     } else if (availableDocks === 0) {
       marker.bindPopup('Zero docks at ' + stationName + '!');
-      self.drawLinesForStation(station);
+      self.drawLinesForStation(station, 'zero docks');
     };
   };
 
 
-  VolunteerMap.prototype.drawLinesForStation = function drawLines (station) {
+  VolunteerMap.prototype.drawLinesForStation = function drawLines (station, bikesOrDocks) {
     var self = this;
     var nearest = nearestStationsLookup[station.id];
 
@@ -52,41 +52,79 @@
       var pointList = [stationCoordinates, nearbyCoordinates];
 
       var lineConfig = {
-        color: 'red',
         weight: 6,
         opacity: 0.75,
         smoothFactor: 1,
       };
 
+      if (bikesOrDocks === 'zero bikes') {
+        lineConfig.color = 'red';
+      } else if (bikesOrDocks === 'zero docks') {
+        lineConfig.color = 'orange';
+      };
+
       var dy = nearbyStation.latitude - station.latitude;
       var dx = nearbyStation.longitude - station.longitude;
 
-      var sinDisplacement = Math.sin(Math.atan2(dy, dx)) * 0.0004;
-      var cosDisplacement = Math.cos(Math.atan2(dy, dx)) * 0.0004;
+      var sinDisplacement = Math.sin(Math.atan2(dy, dx));
+      var cosDisplacement = Math.cos(Math.atan2(dy, dx));
 
-      var leftArrowHeadLatLong = [
-        [nearbyStation.latitude, nearbyStation.longitude],
-        [
-          nearbyStation.latitude - sinDisplacement + cosDisplacement,
-          nearbyStation.longitude - cosDisplacement - sinDisplacement
-        ]
-      ];
 
-      var rightArrowHeadLatLong = [
-        [nearbyStation.latitude, nearbyStation.longitude],
-        [
-          nearbyStation.latitude - sinDisplacement - cosDisplacement,
-          nearbyStation.longitude - cosDisplacement + sinDisplacement
-        ]
-      ];
+      if (bikesOrDocks === 'zero docks') {
 
-      var line = new L.polyline(pointList, lineConfig);
-      var leftArrowHead = new L.polyline(leftArrowHeadLatLong, lineConfig);
-      var rightArrowHead = new L.polyline(rightArrowHeadLatLong, lineConfig);
+        var leftArrowHeadLatLong = [
+          [nearbyStation.latitude, nearbyStation.longitude],
+          [
+            nearbyStation.latitude + (-sinDisplacement + cosDisplacement) * 0.0004,
+            nearbyStation.longitude + (-cosDisplacement - sinDisplacement) * 0.0004
+          ]
+        ];
 
-      line.addTo(this.map);
-      leftArrowHead.addTo(this.map);
-      rightArrowHead.addTo(this.map);
+        var rightArrowHeadLatLong = [
+          [nearbyStation.latitude, nearbyStation.longitude],
+          [
+            nearbyStation.latitude + (-sinDisplacement - cosDisplacement) * 0.0004,
+            nearbyStation.longitude + (-cosDisplacement + sinDisplacement) * 0.0004
+          ]
+        ];
+
+        var leftArrowHead = new L.polyline(leftArrowHeadLatLong, lineConfig);
+        var rightArrowHead = new L.polyline(rightArrowHeadLatLong, lineConfig);
+
+        leftArrowHead.addTo(this.map);
+        rightArrowHead.addTo(this.map);
+
+        var line = new L.polyline(pointList, lineConfig);
+        line.addTo(this.map);
+
+      } else if (bikesOrDocks === 'zero bikes') {
+
+        var leftArrowHeadLatLong = [
+          [station.latitude, station.longitude],
+          [
+            station.latitude + (-sinDisplacement + cosDisplacement) * 0.0004,
+            station.longitude + (-cosDisplacement - sinDisplacement) * 0.0004
+          ]
+        ];
+
+        var rightArrowHeadLatLong = [
+          [station.latitude, station.longitude],
+          [
+            station.latitude + (-sinDisplacement - cosDisplacement) * 0.0004,
+            station.longitude + (-cosDisplacement + sinDisplacement) * 0.0004
+          ]
+        ];
+
+        var leftArrowHead = new L.polyline(leftArrowHeadLatLong, lineConfig);
+        var rightArrowHead = new L.polyline(rightArrowHeadLatLong, lineConfig);
+
+        leftArrowHead.addTo(this.map);
+        rightArrowHead.addTo(this.map);
+
+        var line = new L.polyline(pointList, lineConfig);
+        line.addTo(this.map);
+
+      };
     }
   };
 
