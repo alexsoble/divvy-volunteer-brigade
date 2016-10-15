@@ -5,7 +5,7 @@
     this.map = map;
   };
 
-  Marker.prototype.render = function () {
+  Marker.prototype.draw = function () {
     marker = L.marker([this.station.latitude, this.station.longitude], { icon: this.bikeIcon() })
               .addTo(this.map);
 
