@@ -1,5 +1,7 @@
 (function(root) {
 
+  var Marker = window.Marker;
+
   var VolunteerMap = function initializeVolunteerMap (data, map) {
     this.stationList = data.stationBeanList;
     this.map = map;
@@ -20,20 +22,13 @@
     var longitude = station.longitude;
     var self = this;
 
-    var bikeIcon = L.divIcon({
-      className: 'icon-wrapper',
-      html: '<span class="map-icon map-icon-bicycle-store"><span>'
-    });
-
     if (availableBikes !== 0 && availableDocks !== 0) return null;
 
-    var marker =  L.marker([latitude, longitude], { icon: bikeIcon }).addTo(this.map);
-
     if (availableBikes === 0) {
-      marker.bindPopup('Zero bikes at ' + stationName + '!');
+      (new Marker(station, this.map)).render();
       self.drawLinesForStation(station, 'zero bikes');
     } else if (availableDocks === 0) {
-      marker.bindPopup('Zero docks at ' + stationName + '!');
+      (new Marker(station, this.map)).render();
       self.drawLinesForStation(station, 'zero docks');
     };
   };
