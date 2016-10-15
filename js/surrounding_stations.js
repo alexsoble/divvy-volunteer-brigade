@@ -12,6 +12,7 @@
 
     for (i = 0; i < nearest.length; i++) {
       var nearbyStation = nearest[i];
+      (new Marker(nearbyStation, this.map)).draw();
       var nearbyCoordinates = new L.LatLng(nearbyStation.latitude, nearbyStation.longitude);
 
       var pointList = [stationCoordinates, nearbyCoordinates];
