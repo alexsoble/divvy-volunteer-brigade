@@ -60,18 +60,24 @@
 
       var dy = nearbyStation.latitude - station.latitude;
       var dx = nearbyStation.longitude - station.longitude;
-      var angle = Math.atan2(dy, dx);
 
-      Math.cos(angle-Math.PI/6)
+      var sinDisplacement = Math.sin(Math.atan2(dy, dx)) * 0.0004;
+      var cosDisplacement = Math.cos(Math.atan2(dy, dx)) * 0.0004;
 
       var leftArrowHeadLatLong = [
         [nearbyStation.latitude, nearbyStation.longitude],
-        [nearbyStation.latitude - (0.0008), nearbyStation.longitude - (0.0008)]
+        [
+          nearbyStation.latitude - sinDisplacement + cosDisplacement,
+          nearbyStation.longitude - cosDisplacement - sinDisplacement
+        ]
       ];
 
       var rightArrowHeadLatLong = [
         [nearbyStation.latitude, nearbyStation.longitude],
-        [nearbyStation.latitude - (0.0008), nearbyStation.longitude + (0.0008)]
+        [
+          nearbyStation.latitude - sinDisplacement - cosDisplacement,
+          nearbyStation.longitude - cosDisplacement + sinDisplacement
+        ]
       ];
 
       var line = new L.polyline(pointList, lineConfig);
