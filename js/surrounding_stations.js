@@ -17,24 +17,11 @@
 
       var pointList = [stationCoordinates, nearbyCoordinates];
 
-      var lineConfig = {
-        weight: 6,
-        opacity: 0.75,
-        smoothFactor: 1,
-      };
-
-      if (this.station.availableBikes === 0) {
-        lineConfig.color = 'red';
-      } else if (this.station.availableDocks === 0) {
-        lineConfig.color = 'orange';
-      };
-
       var dy = nearbyStation.latitude - this.station.latitude;
       var dx = nearbyStation.longitude - this.station.longitude;
 
       var sinDisplacement = Math.sin(Math.atan2(dy, dx));
       var cosDisplacement = Math.cos(Math.atan2(dy, dx));
-
 
       if (this.station.availableDocks === 0) {
 
@@ -60,7 +47,7 @@
         leftArrowHead.addTo(this.map);
         rightArrowHead.addTo(this.map);
 
-        var line = new L.polyline(pointList, lineConfig);
+        var line = new L.polyline(pointList, this.lineConfig());
         line.addTo(this.map);
 
       } else if (this.station.availableBikes === 0) {
@@ -81,16 +68,32 @@
           ]
         ];
 
-        var leftArrowHead = new L.polyline(leftArrowHeadLatLong, lineConfig);
-        var rightArrowHead = new L.polyline(rightArrowHeadLatLong, lineConfig);
+        var leftArrowHead = new L.polyline(leftArrowHeadLatLong, this.lineConfig());
+        var rightArrowHead = new L.polyline(rightArrowHeadLatLong, this.lineConfig());
 
         leftArrowHead.addTo(this.map);
         rightArrowHead.addTo(this.map);
 
-        var line = new L.polyline(pointList, lineConfig);
+        var line = new L.polyline(pointList, this.lineConfig());
         line.addTo(this.map);
       };
     }
+  };
+
+  SurroundingStations.prototype.lineConfig = function makeConfig () {
+    var lineConfig = {
+      weight: 6,
+      opacity: 0.75,
+      smoothFactor: 1,
+    };
+
+    if (this.station.availableBikes === 0) {
+      lineConfig.color = 'red';
+    } else if (this.station.availableDocks === 0) {
+      lineConfig.color = 'orange';
+    };
+
+    return lineConfig;
   };
 
   root.SurroundingStations = SurroundingStations;
