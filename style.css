@@ -6,12 +6,16 @@
   background-color: white;
   padding: 10px;
   border-radius: 32px;
-  border: 1px solid gray;
+  border: 1px solid blue;
+}
+
+.icon-wrapper.problem-station {
+  border: 2px solid red;
 }
 
 .map-icon {
-  font-size: 24px;
   position: relative;
+  font-size: 24px;
   bottom: 6px;
   right: 6px;
   color: blue;
@@ -19,4 +23,5 @@
 
 .map-icon.problem-station {
   color: red;
+  font-weight: bold;
 }

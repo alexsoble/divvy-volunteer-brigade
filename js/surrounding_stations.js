@@ -4,6 +4,8 @@
     this.station = station;
     this.stationLookup = stationLookup;
     this.map = map;
+    this.noDocks = (this.station.availableDocks === 0);
+    this.noBikes = (this.station.availableBikes === 0);
   };
 
   SurroundingStations.prototype.draw = function drawLines () {
@@ -12,8 +14,14 @@
 
     for (i = 0; i < nearest.length; i++) {
       var nearbyStation = this.stationLookup[nearest[i]['id']];
-      (new Marker(nearbyStation, this.map)).draw();
-      self.drawNearbyStation(nearbyStation);
+
+      var valid = (nearbyStation.availableBikes > 0 && this.noBikes) ||
+                  (nearbyStation.availableDocks > 0 && this.noDocks);
+
+      if (valid) {
+        (new Marker(nearbyStation, this.map)).draw();
+        self.drawNearbyStation(nearbyStation);
+      };
     }
   };
 
@@ -33,7 +41,7 @@
     var sinDisplacement = Math.sin(Math.atan2(dy, dx));
     var cosDisplacement = Math.cos(Math.atan2(dy, dx));
 
-    if (this.station.availableDocks === 0) {
+    if (this.noDocks) {
 
       var leftArrowHeadLatLong = [
         [nearbyStation.latitude, nearbyStation.longitude],
@@ -57,7 +65,7 @@
       leftArrowHead.addTo(this.map);
       rightArrowHead.addTo(this.map);
 
-    } else if (this.station.availableBikes === 0) {
+    } else if (this.noBikes) {
 
       var leftArrowHeadLatLong = [
         [this.station.latitude, this.station.longitude],
@@ -91,9 +99,9 @@
     };
 
     if (this.station.availableBikes === 0) {
-      lineConfig.color = 'red';
+      lineConfig.color = 'black';
     } else if (this.station.availableDocks === 0) {
-      lineConfig.color = 'orange';
+      lineConfig.color = 'black';
     };
 
     return lineConfig;

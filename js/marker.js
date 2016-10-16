@@ -16,7 +16,7 @@
 
   Marker.prototype.bikeIcon = function () {
     return L.divIcon({
-      className: 'icon-wrapper',
+      className: this.bikeIconClassName(),
       html: this.bikeIconHtml()
     });
   };
@@ -26,6 +26,14 @@
       return '<span class="map-icon map-icon-bicycle-store problem-station"><span>';
     } else {
       return '<span class="map-icon map-icon-bicycle-store"><span>';
+    };
+  };
+
+  Marker.prototype.bikeIconClassName = function () {
+    if (this.noBikes || this.noDocks) {
+      return 'icon-wrapper problem-station';
+    } else {
+      return 'icon-wrapper';
     };
   };
 
