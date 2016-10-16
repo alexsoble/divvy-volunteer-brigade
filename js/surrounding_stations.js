@@ -1,7 +1,8 @@
 (function(root) {
 
-  var SurroundingStations = function initializeSurroundingStations (station, map) {
+  var SurroundingStations = function initializeSurroundingStations (station, stationLookup, map) {
     this.station = station;
+    this.stationLookup = stationLookup;
     this.map = map;
   };
 
@@ -10,7 +11,7 @@
     var self = this;
 
     for (i = 0; i < nearest.length; i++) {
-      var nearbyStation = nearest[i];
+      var nearbyStation = this.stationLookup[nearest[i]['id']];
       (new Marker(nearbyStation, this.map)).draw();
       self.drawNearbyStation(nearbyStation);
     }

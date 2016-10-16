@@ -3,6 +3,8 @@
   var Marker = function initializeMarker (station, map) {
     this.station = station;
     this.map = map;
+    this.noBikes = (this.station.availableBikes === 0);
+    this.noDocks = (this.station.availableDocks === 0)
   };
 
   Marker.prototype.draw = function () {
@@ -15,17 +17,27 @@
   Marker.prototype.bikeIcon = function () {
     return L.divIcon({
       className: 'icon-wrapper',
-      html: '<span class="map-icon map-icon-bicycle-store"><span>'
+      html: this.bikeIconHtml()
     });
   };
 
+  Marker.prototype.bikeIconHtml = function () {
+    if (this.noBikes || this.noDocks) {
+      return '<span class="map-icon map-icon-bicycle-store problem-station"><span>';
+    } else {
+      return '<span class="map-icon map-icon-bicycle-store"><span>';
+    };
+  };
+
   Marker.prototype.popupText = function () {
-    if (this.station.availableBikes === 0) {
+    if (this.noBikes) {
       return 'Zero bikes at ' + this.station.stationName + '!';
-    } else if (this.station.availableDocks === 0) {
+    } else if (this.noDocks) {
       return 'Zero docks at ' + this.station.stationName + '!';
     } else {
-      return String(this.station.availableBikes) + ' bikes at ' + this.station.stationName + '.';
+      return (String(this.station.availableBikes) + ' bikes and ' +
+        String(this.station.availableDocks) + ' available docks at ' +
+        this.station.stationName + '.');
     };
   };
 

@@ -32,7 +32,7 @@
     if (availableBikes !== 0 && availableDocks !== 0) return null;
 
     (new Marker(station, this.map)).draw();
-    (new SurroundingStations(station, this.map)).draw();
+    (new SurroundingStations(station, this.stationLookup, this.map)).draw();
   };
 
   root.VolunteerMap = VolunteerMap;
