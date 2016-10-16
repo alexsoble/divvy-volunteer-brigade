@@ -50,8 +50,8 @@
         ]
       ];
 
-      var leftArrowHead = new L.polyline(leftArrowHeadLatLong, lineConfig);
-      var rightArrowHead = new L.polyline(rightArrowHeadLatLong, lineConfig);
+      var leftArrowHead = new L.polyline(leftArrowHeadLatLong, this.lineConfig());
+      var rightArrowHead = new L.polyline(rightArrowHeadLatLong, this.lineConfig());
 
       leftArrowHead.addTo(this.map);
       rightArrowHead.addTo(this.map);
