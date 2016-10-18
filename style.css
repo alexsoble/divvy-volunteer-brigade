@@ -24,3 +24,15 @@
 .map-icon.problem-station {
   color: red;
 }
+
+* {
+  font-family: 'Rubik', sans-serif;
+}
+
+.info {
+  padding: 30px 40px;
+  font-size: 20px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
