@@ -31,64 +31,6 @@
     var pointList = [this.stationLatLng(), nearbyCoordinates];
     var line = new L.polyline(pointList, this.lineConfig());
     line.addTo(this.map);
-    this.drawArrow(nearbyStation);
-  };
-
-  SurroundingStations.prototype.drawArrow = function drawArrow (nearbyStation) {
-    var dy = nearbyStation.latitude - this.station.latitude;
-    var dx = nearbyStation.longitude - this.station.longitude;
-
-    var sinDisplacement = Math.sin(Math.atan2(dy, dx));
-    var cosDisplacement = Math.cos(Math.atan2(dy, dx));
-
-    if (this.noDocks) {
-
-      var leftArrowHeadLatLong = [
-        [nearbyStation.latitude, nearbyStation.longitude],
-        [
-          nearbyStation.latitude + (-sinDisplacement + cosDisplacement) * 0.0004,
-          nearbyStation.longitude + (-cosDisplacement - sinDisplacement) * 0.0004
-        ]
-      ];
-
-      var rightArrowHeadLatLong = [
-        [nearbyStation.latitude, nearbyStation.longitude],
-        [
-          nearbyStation.latitude + (-sinDisplacement - cosDisplacement) * 0.0004,
-          nearbyStation.longitude + (-cosDisplacement + sinDisplacement) * 0.0004
-        ]
-      ];
-
-      var leftArrowHead = new L.polyline(leftArrowHeadLatLong, this.lineConfig());
-      var rightArrowHead = new L.polyline(rightArrowHeadLatLong, this.lineConfig());
-
-      leftArrowHead.addTo(this.map);
-      rightArrowHead.addTo(this.map);
-
-    } else if (this.noBikes) {
-
-      var leftArrowHeadLatLong = [
-        [this.station.latitude, this.station.longitude],
-        [
-          this.station.latitude + (-sinDisplacement + cosDisplacement) * 0.0004,
-          this.station.longitude + (-cosDisplacement - sinDisplacement) * 0.0004
-        ]
-      ];
-
-      var rightArrowHeadLatLong = [
-        [this.station.latitude, this.station.longitude],
-        [
-          this.station.latitude + (-sinDisplacement - cosDisplacement) * 0.0004,
-          this.station.longitude + (-cosDisplacement + sinDisplacement) * 0.0004
-        ]
-      ];
-
-      var leftArrowHead = new L.polyline(leftArrowHeadLatLong, this.lineConfig());
-      var rightArrowHead = new L.polyline(rightArrowHeadLatLong, this.lineConfig());
-
-      leftArrowHead.addTo(this.map);
-      rightArrowHead.addTo(this.map);
-    };
   };
 
   SurroundingStations.prototype.lineConfig = function makeConfig () {
