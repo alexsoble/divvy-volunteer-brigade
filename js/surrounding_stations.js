@@ -31,6 +31,27 @@
     var pointList = [this.stationLatLng(), nearbyCoordinates];
     var line = new L.polyline(pointList, this.lineConfig());
     line.addTo(this.map);
+
+    var arrowHead = L.polylineDecorator(line).addTo(this.map);
+
+    var arrowOffset = 0;
+    var anim = window.setInterval(function() {
+      arrowHead.setPatterns([
+        {
+          offset: arrowOffset+'%', repeat: 0, symbol: L.Symbol.arrowHead(
+            {
+              pixelSize: 15,
+              polygon: false,
+              pathOptions: {
+                stroke: true
+              }
+            }
+          )
+        }
+      ])
+      if(++arrowOffset > 100)
+        arrowOffset = 0;
+    }, 100);
   };
 
   SurroundingStations.prototype.lineConfig = function makeConfig () {
