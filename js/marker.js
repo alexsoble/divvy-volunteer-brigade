@@ -8,7 +8,7 @@
   };
 
   Marker.prototype.draw = function () {
-    marker = L.marker([this.station.latitude, this.station.longitude], { icon: this.bikeIcon() })
+    marker = L.circleMarker([this.station.latitude, this.station.longitude], this.circleMarkerOptions() )
               .addTo(this.map);
 
     marker.bindPopup(this.popupText());
@@ -21,19 +21,19 @@
     });
   };
 
-  Marker.prototype.bikeIconHtml = function () {
+  Marker.prototype.circleMarkerOptions = function () {
     if (this.noBikes || this.noDocks) {
-      return '<span class="map-icon map-icon-bicycle-store problem-station"><span>';
+      return {
+        color: 'red',
+        fillColor: 'red',
+        radius: 16
+      };
     } else {
-      return '<span class="map-icon map-icon-bicycle-store"><span>';
-    };
-  };
-
-  Marker.prototype.bikeIconClassName = function () {
-    if (this.noBikes || this.noDocks) {
-      return 'icon-wrapper problem-station';
-    } else {
-      return 'icon-wrapper';
+      return {
+        color: 'blue',
+        fillColor: 'blue',
+        radius: 8
+      };
     };
   };
 

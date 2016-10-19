@@ -58,7 +58,7 @@
   SurroundingStations.prototype.lineConfig = function makeConfig () {
     var lineConfig = {
       weight: 6,
-      opacity: 0.75,
+      opacity: 0.7,
       smoothFactor: 1,
     };
 
