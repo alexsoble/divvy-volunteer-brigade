@@ -43,7 +43,8 @@
               pixelSize: 15,
               polygon: false,
               pathOptions: {
-                stroke: true
+                stroke: true,
+                color: 'black'
               }
             }
           )
