@@ -16,7 +16,7 @@ $(function() {
   mapTitle.addTo(map);
 
   $.ajax({
-    url: 'http://www.divvybikes.com/stations/json/',
+    url: 'https://feeds.divvybikes.com/stations/stations.json',
     success: function (data) {
       var volunteerMap = new VolunteerMap(data, map);
       volunteerMap.draw();
